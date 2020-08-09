@@ -8,7 +8,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
       resourceRequestMemory: '300Mi',
       resourceLimitMemory: '500Mi',
       ttyEnabled: true
-    ),
+    )
   ],
 
   volumes: [
