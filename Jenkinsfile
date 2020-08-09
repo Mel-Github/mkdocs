@@ -7,7 +7,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
       resourceLimitCpu: '300m',
       resourceRequestMemory: '300Mi',
       resourceLimitMemory: '500Mi',
-      ttyEnabled: true
+      ttyEnabled: true,
     )
   ],
             
@@ -33,8 +33,12 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
             }
         }    
         stage('Test container') {
+             environment {
+                DOCKER_PORT = '80'
+            }
             container('docker') {  
                 sh 'echo Testing Container ${BUILD_ID}'   
+                ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}
             }
         }  
     }
