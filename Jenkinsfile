@@ -37,12 +37,8 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 DOCKER_PORT = '80'
             }
             container('docker') {  
-                sh 'echo Testing Container ${BUILD_ID}'   
-                sh 'ls -l'
-                sh 'pwd'
-                sh 'cat wrapper.sh'
-                sh '''export PATH=$PATH:/usr/local/bin/
-                bash ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'''
+                sh """
+                ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}"""
             }
         }  
     }
