@@ -33,12 +33,9 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
             }
         }    
         stage('Test container') {
-             environment {
-                DOCKER_PORT = '80'
-            }
             container('docker') {  
                 sh """
-                ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}
+                ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p 8000
                 """
             }
         }  
