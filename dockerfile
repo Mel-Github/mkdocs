@@ -5,7 +5,7 @@ LABEL maintainer Melvin Cheng <melvin.cheng.ecs-digital.co.uk>
 RUN apk add --update \
     python3 \
     python3-dev \
-    bash \
+    --no-cache bash \
     --no-cache py-pip  \
     --no-cache curl \
     build-base && \
