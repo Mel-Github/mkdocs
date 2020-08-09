@@ -36,6 +36,8 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
             container('docker') {  
                 sh 'ls -l /bin/bash'
                 sh 'cat wrapper.sh'
+                sh 'test.sh'
+                sh './test.sh'
                 sh """
                 ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p 8000
                 """
