@@ -20,7 +20,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
         stage('Get latest version of code') {
           checkout scm
         }
-        stage('Check running containers') {
+        stage('Performing Docker Check') {
             container('docker') {  
                 sh 'hostname'
                 sh 'hostname -i' 
@@ -28,6 +28,11 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 sh 'ls'
                 sh 'docker version'    
             }
-        }         
+        }
+        stage('Build container') {
+            container('docker') {  
+                sh 'echo Building Container ${BUILD_ID}'   
+            }
+        }       
     }
 }
