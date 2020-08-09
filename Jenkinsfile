@@ -23,8 +23,9 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
         stage('Performing Docker Check') {
             container('docker') {  
                 sh 'docker version'   
+                sh "${WORKSPACE}/test.sh"
                 script {
-                    sh './test.sh'
+                    sh "${WORKSPACE}/test.sh"
                 }
             }
         }
