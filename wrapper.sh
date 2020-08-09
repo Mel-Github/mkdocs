@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 readonly MKDOCS_CONFIG=mkdocs.yml
 readonly DOCKERFILE=dockerfile
