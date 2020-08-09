@@ -22,17 +22,20 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
         }
         stage('Performing Docker Check') {
             container('docker') {  
-                sh 'hostname'
-                sh 'hostname -i' 
-                sh 'docker ps'
-                sh 'ls'
                 sh 'docker version'    
             }
         }
         stage('Build container') {
             container('docker') {  
                 sh 'echo Building Container ${BUILD_ID}'   
+                sh 'docker build -t mkdocs:${BUILD_ID} .'
+                sh 'docker images'
             }
-        }       
+        }    
+        stage('Test container') {
+            container('docker') {  
+                sh 'echo Testing Container ${BUILD_ID}'   
+            }
+        }  
     }
 }
