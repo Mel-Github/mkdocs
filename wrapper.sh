@@ -1,15 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 
 readonly MKDOCS_CONFIG=mkdocs.yml
-readonly MKDOCS_DEFAULT_PROJECT=default-project
 readonly DOCKERFILE=dockerfile
 MKDOCS_DOCKER_WORKDIR="" #This value is mapped back with the Dockerfile WORKDIR
-
+MKDOCS_DEFAULT_PROJECT=default-project
 
 helpFunction()
 {
    echo ""
-   echo "Usage: $0 -p <DOCKER PORT> -i <DOCKE R IMAGE> -v <LOCAL DIRECTORY> -c <MKDOCS COMMAND [build / serve]>"
+   echo "Usage: $0 -p <DOCKER PORT> -i <DOCKE R IMAGE> -v <LOCAL DIRECTORY> -c <MKDOCS COMMAND [build / serve]"
+   echo -e "\t[COMMANDS]"
    echo -e "\t-v Local MkDocs Project Directory"
    echo -e "\t-i Docker Container Image Name"
    echo -e "\t-c MkDocs BUILD or SERVER Command"
@@ -17,7 +17,7 @@ helpFunction()
    exit 1 # Exit script after printing help
 }
 
-while getopts "p:i:c:v:" opt
+while getopts "p:i:c:v:n:" opt
 do
    case "$opt" in
       p ) DOCKER_PORT="$OPTARG" ;;
@@ -28,8 +28,10 @@ do
    esac
 done
 
-# Read from Dockerfile the WORKDIR value which we will need to map to docker volume later.
 
+echo "MKDOCS_DEFAULT_PROJECT is $MKDOCS_DEFAULT_PROJECT"
+
+# Read from Dockerfile the WORKDIR value which we will need to map to docker volume later.
 if ! [[ -f $DOCKERFILE ]]; then
   echo "[ ERROR ]: Unable to locate dockerfile."
   exit 1
@@ -96,8 +98,10 @@ fi
 if [[ ! -d "$WORKSPACE" ]]; then
   echo "[ ERROR ]: $WORKSPACE does not exist locally"
   #  echo "Workspace is $WORKSPACE & mkdocs_config $MKDOCS_CONFIG and path is ${PWD}/$WORKSPACE/$MKDOCS_CONFIG "
-  helpFunction
-  exit 1
+  docker run -v ${PWD}:/$MKDOCS_DOCKER_WORKDIR $DOCKER_IMAGE new $WORKSPACE
+  MKDOC_PROJECT=$WORKSPACE
+  ## helpFunction
+  ## exit 1
 else 
   # Check that the WORKSPACE contains the mkdocs.yml file. If not we need to generate a NEW MKDOCS project.
   # Assumption we will auto generate a NEW MKDOCS project.
@@ -108,9 +112,11 @@ else
     MKDOC_PROJECT=$WORKSPACE
   else 
     echo "[ INFO ]: $MKDOCS_CONFIG missing. Generating new Mkdocs project"
-    MKDOC_PROJECT=$WORKSPACE/$MKDOCS_DEFAULT_PROJECT
-    if ! [ -f "$WORKSPACE/$MKDOCS_DEFAULT_PROJECT/$MKDOCS_CONFIG" ]; then
-      docker run -v ${PWD}/$WORKSPACE:/$MKDOCS_DOCKER_WORKDIR $DOCKER_IMAGE new $MKDOCS_DEFAULT_PROJECT 
+    # MKDOC_PROJECT=$WORKSPACE/$MKDOCS_DEFAULT_PROJECT
+    MKDOC_PROJECT=$WORKSPACE
+    if ! [ -f "$WORKSPACE/$MKDOCS_CONFIG" ]; then
+      # docker run -v ${PWD}/$WORKSPACE:/$MKDOCS_DOCKER_WORKDIR $DOCKER_IMAGE new $MKDOCS_DEFAULT_PROJECT 
+      docker run -v ${PWD}:/$MKDOCS_DOCKER_WORKDIR $DOCKER_IMAGE new $WORKSPACE
     else
        echo "[ INFO ]: $MKDOCS_CONFIG found inside $WORKSPACE/$MKDOCS_DEFAULT_PROJECT. Skipping project creation."
     fi
