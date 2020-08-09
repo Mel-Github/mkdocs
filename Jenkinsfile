@@ -42,7 +42,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 sh 'pwd'
                 sh 'cat wrapper.sh'
                 sh '''export PATH=$PATH:/usr/local/bin/
-                ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'''
+                bash ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'''
             }
         }  
     }
