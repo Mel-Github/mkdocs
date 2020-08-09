@@ -34,7 +34,6 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
         }    
         stage('Test container') {
             container('docker') {  
-                sh 'ls -l /bin/bash'
                 sh 'cat wrapper.sh'
                 sh 'test.sh'
                 sh './test.sh'
