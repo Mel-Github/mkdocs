@@ -4,7 +4,7 @@ pipeline {
     stage('Build Container') {
       steps {
         echo 'Docker Image Build'
-        sh 'docker version'
+        sh '/usr/local/bin/docker version'
       }
     }
 
