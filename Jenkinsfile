@@ -10,7 +10,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
       ttyEnabled: true
     )
   ],
-
+            
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     hostPathVolume(mountPath: '/usr/local/bin/helm', hostPath: '/usr/local/bin/helm')
@@ -26,7 +26,8 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 sh 'hostname -i' 
                 sh 'docker ps'
                 sh 'ls'
-                sh 'docker version'
+                sh 'docker version'    
+            }
         }         
     }
 }
