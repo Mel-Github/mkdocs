@@ -60,7 +60,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 container('docker') {  
                     sh 'echo Testing Container ${BUILD_ID}'  
                     script {
-                        env.DOCKER_PID = `docker ps -qf "name=mkdocs-${BUILD_ID}"`
+                        sh "env.DOCKER_PID=`docker ps -qf "name=mkdocs-${BUILD_ID}"`"
                      
                     }
                    sh 'echo DOCKER_PID = ${env.DOCKER_PID}'
