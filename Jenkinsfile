@@ -22,10 +22,6 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
         stage('Performing Docker Check') {
             container('docker') {  
                 sh 'docker version'   
-                //sh "${WORKSPACE}/test.sh"
-                //script {
-                //    sh "${WORKSPACE}/test.sh"
-                // }
             }
         }
         stage('Build container') {
@@ -35,10 +31,9 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 sh 'docker images'
             }
         }    
+        
+        withEnv(['DOCKER_PORT=8000'])
         stage('Test container') {
-            environment {
-                DOCKER_PORT = '8000'
-            }
             container('docker') {  
                 // Install bash into alpine image
                 sh 'apk update'
@@ -52,9 +47,6 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 script {
                     sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
                 }
-                /* sh """
-                ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p 8000
-                """ */
             }
         }  
     }
