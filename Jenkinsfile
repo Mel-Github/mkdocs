@@ -64,8 +64,18 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     }
                     sh 'echo DOCKER_PID is ${DOCKER_PID}'
                     echo "DOCKER_PID is ${env.DOCKER_PID}"
-                  
-                    docker inspect --format='{{json .State.Health.Status}}' ${DOCKER_PID}
+                    
+                    script {
+                        env.HEALTHSTATUS= sh(script: 'docker inspect --format='{{json .State.Health.Status}}' ${DOCKER_PID}', returnStdout: true) 
+                    }
+                    
+                    echo "Container Health status is ${HEALTHSTATUS}"
+                    
+                    if (env.HEALTHSTATUS == '"healthy"') {
+                        echo 'Container health status ${HEALTHSTATUS}'
+                    } else {
+                        echo 'Container health status ${HEALTHSTATUS}'
+                    }
                  }
             } // end of stage 5
         } // end of withEnv
