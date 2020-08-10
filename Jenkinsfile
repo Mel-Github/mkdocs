@@ -25,14 +25,19 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 container('docker') {  
                     sh 'docker version'   
                     
-                     echo "Container Health status is \"healthy\""
+                    script {
+                        env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" 9bd8b1c8a9f7', returnStdout: true) 
+                    }
+                    
+                    echo "Container Health status with env is ${env.HEALTHSTATUS}"
+                    echo "Container Health status is ${HEALTHSTATUS}"
  
-                    if ("healthy" == "\"healthy\"") {
+                    if (env.HEALTHSTATUS == "\"healthy\"") {
                         echo '[ INFO ]: Container health status ${HEALTHSTATUS}'
                     } else {
                         echo '[ ERROR ]: Container health status ${HEALTHSTATUS}'
                     }
-                    
+                    exit 1
                 }
             } // end of stage 2
             
