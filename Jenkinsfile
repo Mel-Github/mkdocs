@@ -42,11 +42,8 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     sh 'apk update'
                     sh 'apk upgrade'
                     sh 'apk add bash'
-
-                    sh 'cat wrapper.sh'
-                    // sh 'test.sh'
-                    // sh './test.sh'
-                    // sleep 4000
+                    
+                    // Build the MkDocs projects followed by Serve
                     script {
                         sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
                     }
@@ -59,6 +56,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
            stage('Test container') {
                 container('docker') {  
                     sh 'echo Testing Container ${BUILD_ID}'  
+                    // Extract the docker id of the MkDoc container. This value will be used for terminating the container later.
                     script {
                         env.DOCKER_PID = sh(script:'docker ps -qf "name=mkdocs-${BUILD_ID}"', returnStdout: true)                    
                     }
@@ -68,6 +66,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     // Adding 30 secs delay for application to launch
                     sleep 30
                     
+                    // Using the HEALTHCHECK implemented in the docker container to determine the container Health status.
                     script {
                         env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" ${DOCKER_PID}', returnStdout: true).trim()
                     }
