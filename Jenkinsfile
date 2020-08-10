@@ -36,7 +36,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
             } // end of stage 3
 
 
-            stage('Test container') {
+            stage('Run container') {
                 container('docker') {  
                     // Install bash into alpine image
                     sh 'apk update'
@@ -55,7 +55,12 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     }
                 }
             }  // end of stage 4
-            
+
+           stage('Test container') {
+                container('docker') {  
+                    sh 'echo Testing Container ${BUILD_ID}'   
+                 }
+            } // end of stage 5
         } // end of withEnv
     } // end of node
 }
