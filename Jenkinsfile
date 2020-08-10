@@ -60,10 +60,10 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 container('docker') {  
                     sh 'echo Testing Container ${BUILD_ID}'  
                     script {
-                        env.DOCKER_PID = sh(script:'docker ps -qf "name=mkdocs-${BUILD_ID}"')                    
+                        env.DOCKER_PID = sh(script:'docker ps -qf "name=mkdocs-${BUILD_ID}"', returnStdout: true)                    
                     }
-                   sh 'echo DOCKER_PID = ${env.DOCKER_PID}'
-                   echo "DOCKER_PID = ${env.DOCKER_PID}"
+                    sh 'echo DOCKER_PID is ${DOCKER_PID}'
+                   echo "DOCKER_PID is ${env.DOCKER_PID}"
                  }
             } // end of stage 5
         } // end of withEnv
