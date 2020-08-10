@@ -63,7 +63,9 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                         env.DOCKER_PID = sh(script:'docker ps -qf "name=mkdocs-${BUILD_ID}"', returnStdout: true)                    
                     }
                     sh 'echo DOCKER_PID is ${DOCKER_PID}'
-                   echo "DOCKER_PID is ${env.DOCKER_PID}"
+                    echo "DOCKER_PID is ${env.DOCKER_PID}"
+                  
+                    docker inspect --format='{{json .State.Health.Status}}' ${DOCKER_PID}
                  }
             } // end of stage 5
         } // end of withEnv
