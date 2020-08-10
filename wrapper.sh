@@ -131,7 +131,7 @@ echo "*********************************************"
 echo "            [OPTIONS] SUMMARY                "
 echo "*********************************************"
 echo "[ INFO ]: Docker Port      -  $DOCKER_PORT"
-echo "[ INFO ]: Docker Iamge     -  $DOCKER_IMAGE"
+echo "[ INFO ]: Docker Image     -  $DOCKER_IMAGE"
 echo "[ INFO ]: MkDocs Command   -  $COMMAND"
 echo "[ INFO ]: Local Directory  -  $WORKSPACE"
 echo "[ INFO ]: MkDocs Project   -  $MKDOC_PROJECT"
@@ -155,7 +155,7 @@ case "$LC_COMMAND" in
             echo "*********************************************"
             echo "[ INFO ]: $LC_COMMAND"
             # echo "docker run -v ${PWD}/$MKDOC_PROJECT:$MKDOCS_DOCKER_WORKDIR -it -d --rm  -p $DOCKER_PORT:8000  --name $DOCKER_IMAGE $DOCKER_IMAGE serve --dev-addr=0.0.0.0:8000"
-            DOCKER_PID=`docker run -v  ${PWD}/$MKDOC_PROJECT:$MKDOCS_DOCKER_WORKDIR -it -d --rm  -p $DOCKER_PORT:8000  --name $DOCKER_IMAGE  $DOCKER_IMAGE serve --dev-addr=0.0.0.0:8000`
+            DOCKER_PID=`docker run -v  ${PWD}/$MKDOC_PROJECT:$MKDOCS_DOCKER_WORKDIR -it -d --rm  -p $DOCKER_PORT:8000  --name $MKDOC_PROJECT  $DOCKER_IMAGE serve --dev-addr=0.0.0.0:8000`
             if [[ $? != 0 ]]; then
               echo "[ ERROR ]: Error serving MkDocs Container."
               exit 1
