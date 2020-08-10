@@ -59,10 +59,10 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
            stage('Test container') {
                 container('docker') {  
                     sh 'echo Testing Container ${BUILD_ID}'  
-                    sh """
-                        'export DOCKER_PID=`docker ps -qf "name=mkdocs-${BUILD_ID}"`'
-                        'echo DOCKER_PID $DOCKER_PID'
-                    """
+                    script {
+                        sh 'DOCKER_PID=`docker ps -qf "name=mkdocs-${BUILD_ID}"`'
+                        sh 'echo DOCKER_PID $DOCKER_PID'
+                    }
                     
                  }
             } // end of stage 5
