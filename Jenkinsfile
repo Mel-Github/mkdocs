@@ -45,7 +45,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 // sh 'test.sh'
                 // sh './test.sh'
                 script {
-                    sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}
+                    sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
                 }
                 /* sh """
                 ./wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p 8000
