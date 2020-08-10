@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 readonly MKDOCS_CONFIG=mkdocs.yml
