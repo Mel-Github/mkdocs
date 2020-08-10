@@ -58,7 +58,9 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
 
            stage('Test container') {
                 container('docker') {  
-                    sh 'echo Testing Container ${BUILD_ID}'   
+                    sh 'echo Testing Container ${BUILD_ID}'  
+                    sh 'echo DOCKER_PID $DOCKER_PID'
+                    
                  }
             } // end of stage 5
         } // end of withEnv
