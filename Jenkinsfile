@@ -44,6 +44,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 sh 'cat wrapper.sh'
                 // sh 'test.sh'
                 // sh './test.sh'
+                sleep 4000
                 script {
                     sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
                 }
