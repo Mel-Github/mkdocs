@@ -58,7 +58,7 @@ To generate the static site assets into the site directory use.
 ./wrapper.sh -v north-docs -i mkdocs -c <span style="color:red">build</span> -p 8000
 
 #### Serve
-To start a development server on http://localhost use:
+To start a development server on http://localhost:8000 use:
 
  ./wrapper.sh -v north-docs -i mkdocs -c <span style="color:red">serve</span> -p 8000
 
