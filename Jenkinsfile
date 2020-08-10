@@ -66,7 +66,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     echo "DOCKER_PID is ${env.DOCKER_PID}"
                     
                     script {
-                        env.HEALTHSTATUS= sh(script: 'docker inspect --format='{{json .State.Health.Status}}' ${DOCKER_PID}', returnStdout: true) 
+                        env.HEALTHSTATUS= sh(script:'docker inspect --format="{{json .State.Health.Status}}" ${DOCKER_PID}', returnStdout: true) 
                     }
                     
                     echo "Container Health status is ${HEALTHSTATUS}"
