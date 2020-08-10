@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 STATUSCODE=$(curl --silent --output /dev/null --write-out "%{http_code}" "http://localhost:8000")
 if [[ $STATUSCODE -ne 200 ]] ; then
     # error handling
