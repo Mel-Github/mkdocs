@@ -65,8 +65,8 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     sh 'echo DOCKER_PID is ${DOCKER_PID}'
                     echo "DOCKER_PID is ${env.DOCKER_PID}"
                     
-                    // Adding 20 secs delay for application to launch
-                    sleep 20
+                    // Adding 30 secs delay for application to launch
+                    sleep 30
                     
                     script {
                         env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" ${DOCKER_PID}', returnStdout: true) 
