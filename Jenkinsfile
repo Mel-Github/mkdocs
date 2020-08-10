@@ -50,6 +50,9 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     script {
                         sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
                     }
+                    script {
+                        sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c serve -p ${DOCKER_PORT}'
+                    }
                 }
             }  // end of stage 4
             
