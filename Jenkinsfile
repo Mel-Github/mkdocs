@@ -71,10 +71,12 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     
                     echo "Container Health status is ${HEALTHSTATUS}"
                     
-                    if (env.HEALTHSTATUS == '"healthy"') {
-                        echo 'Container health status ${HEALTHSTATUS}'
+                    sleep 10
+                    
+                    if (${HEALTHSTATUS} == '"healthy"') {
+                        echo '[ INFO ]: Container health status ${HEALTHSTATUS}'
                     } else {
-                        echo 'Container health status ${HEALTHSTATUS}'
+                        echo '[ ERROR ]: Container health status ${HEALTHSTATUS}'
                     }
                  }
             } // end of stage 5
