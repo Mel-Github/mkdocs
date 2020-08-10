@@ -26,7 +26,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     sh 'docker version'   
                     
                     script {
-                        env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" 9bd8b1c8a9f7', returnStdout: true) 
+                        env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" 9bd8b1c8a9f7', returnStdout: true).trim()
                     }
                     
                     echo "Container Health status with env is ${env.HEALTHSTATUS}"
