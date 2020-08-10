@@ -24,20 +24,6 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
             stage('Performing Docker Check') {
                 container('docker') {  
                     sh 'docker version'   
-                    
-                    script {
-                        env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" 9bd8b1c8a9f7', returnStdout: true).trim()
-                    }
-                    
-                    echo "Container Health status with env is ${env.HEALTHSTATUS}"
-                    echo "Container Health status is ${HEALTHSTATUS}"
- 
-                    if (env.HEALTHSTATUS == "\"healthy\"") {
-                        echo '[ INFO ]: Container health status ${HEALTHSTATUS}'
-                    } else {
-                        echo '[ ERROR ]: Container health status ${HEALTHSTATUS}'
-                    }
-                    exit 1
                 }
             } // end of stage 2
             
@@ -83,15 +69,15 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                     sleep 30
                     
                     script {
-                        env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" ${DOCKER_PID}', returnStdout: true) 
+                        env.HEALTHSTATUS = sh(script:'docker inspect --format="{{json .State.Health.Status}}" ${DOCKER_PID}', returnStdout: true).trim()
                     }
                     
                     echo "Container Health status is ${HEALTHSTATUS}"
  
                     if (env.HEALTHSTATUS == "\"healthy\"") {
-                        echo '[ INFO ]: Container health status ${HEALTHSTATUS}'
+                        echo "[ INFO ]: Container health status ${HEALTHSTATUS}"
                     } else {
-                        echo '[ ERROR ]: Container health status ${HEALTHSTATUS}'
+                        echo "[ ERROR ]: Container health status ${HEALTHSTATUS}"                    
                     }
                  }
             } // end of stage 5
