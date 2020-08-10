@@ -76,8 +76,13 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
  
                     if (env.HEALTHSTATUS == "\"healthy\"") {
                         echo "[ INFO ]: Container health status ${HEALTHSTATUS}"
+                        echo "[ INFO ]: Terminating Build ${BUILD_ID}"
+                        sh 'docker kill ${DOCKER_PID} '
+                        
                     } else {
-                        echo "[ ERROR ]: Container health status ${HEALTHSTATUS}"                    
+                        echo "[ ERROR ]: Container health status ${HEALTHSTATUS}" 
+                        currentBuild.rawBuild.result = Result.ABORTED
+                        throw new hudson.AbortException('Container Testing Failed!')
                     }
                  }
             } // end of stage 5
