@@ -1,7 +1,7 @@
 podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [ 
     containerTemplate(
       name: 'docker', 
-      image: 'alpine:latest', 
+      image: '19.03-rc', 
       command: 'cat', 
       resourceRequestCpu: '100m',
       resourceLimitCpu: '300m',
@@ -13,7 +13,6 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
             
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-    hostPathVolume(mountPath: '/usr/local/bin/helm', hostPath: '/usr/local/bin/helm')
   ]
   ) {
     node('mypod') {
