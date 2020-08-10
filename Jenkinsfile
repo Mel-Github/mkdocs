@@ -1,7 +1,7 @@
 podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [ 
     containerTemplate(
       name: 'docker', 
-      image: 'docker', 
+      image: 'alpine:latest', 
       command: 'cat', 
       resourceRequestCpu: '100m',
       resourceLimitCpu: '300m',
@@ -23,10 +23,10 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
         stage('Performing Docker Check') {
             container('docker') {  
                 sh 'docker version'   
-                sh "${WORKSPACE}/test.sh"
-                script {
-                    sh "${WORKSPACE}/test.sh"
-                }
+                //sh "${WORKSPACE}/test.sh"
+                //script {
+                //    sh "${WORKSPACE}/test.sh"
+                // }
             }
         }
         stage('Build container') {
