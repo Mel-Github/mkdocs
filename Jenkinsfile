@@ -16,38 +16,43 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
   ]
   ) {
     node('mypod') {
-        stage('Get latest version of code') {
-          checkout scm
-        }
-        stage('Performing Docker Check') {
-            container('docker') {  
-                sh 'docker version'   
-            }
-        }
-        stage('Build container') {
-            container('docker') {  
-                sh 'echo Building Container ${BUILD_ID}'   
-                sh 'docker build -t mkdocs:${BUILD_ID} .'
-                sh 'docker images'
-            }
-        }    
-        
-        withEnv(['DOCKER_PORT=8000'])
-        stage('Test container') {
-            container('docker') {  
-                // Install bash into alpine image
-                sh 'apk update'
-                sh 'apk upgrade'
-                sh 'apk add bash'
-                
-                sh 'cat wrapper.sh'
-                // sh 'test.sh'
-                // sh './test.sh'
-                // sleep 4000
-                script {
-                    sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
+        withEnv(['DOCKER_PORT=8000']){
+            stage('Get latest version of code') {
+              checkout scm
+            } // end of stage 1
+            
+            stage('Performing Docker Check') {
+                container('docker') {  
+                    sh 'docker version'   
                 }
-            }
-        }  
-    }
+            } // end of stage 2
+            
+            stage('Build container') {
+                container('docker') {  
+                    sh 'echo Building Container ${BUILD_ID}'   
+                    sh 'docker build -t mkdocs:${BUILD_ID} .'
+                    sh 'docker images'
+                }
+            } // end of stage 3
+
+
+            stage('Test container') {
+                container('docker') {  
+                    // Install bash into alpine image
+                    sh 'apk update'
+                    sh 'apk upgrade'
+                    sh 'apk add bash'
+
+                    sh 'cat wrapper.sh'
+                    // sh 'test.sh'
+                    // sh './test.sh'
+                    // sleep 4000
+                    script {
+                        sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
+                    }
+                }
+            }  // end of stage 4
+            
+        } // end of withEnv
+    } // end of node
 }
