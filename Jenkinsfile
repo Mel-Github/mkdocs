@@ -40,10 +40,15 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 DOCKER_PORT = '8000'
             }
             container('docker') {  
+                // Install bash into alpine image
+                sh 'apk update'
+                sh 'apk upgrade'
+                sh 'apk add bash'
+                
                 sh 'cat wrapper.sh'
                 // sh 'test.sh'
                 // sh './test.sh'
-                sleep 4000
+                // sleep 4000
                 script {
                     sh '${WORKSPACE}/wrapper.sh -v mkdocs-${BUILD_ID} -i mkdocs:${BUILD_ID} -c build -p ${DOCKER_PORT}'
                 }
