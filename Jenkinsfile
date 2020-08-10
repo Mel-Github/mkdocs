@@ -25,7 +25,7 @@ podTemplate(label: 'mypod', serviceAccount: 'jenkins', containers: [
                 container('docker') {  
                     sh 'docker version'   
                     
-                     echo "Container Health status is "healthy"
+                     echo "Container Health status is "healthy""
  
                     if ("healthy" == "\"healthy\"") {
                         echo '[ INFO ]: Container health status ${HEALTHSTATUS}'
